@@ -1,0 +1,60 @@
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Payer avec des tickets restaurant</title>
+    <style>
+        body{
+            width: 320px;
+            margin: auto;
+            padding: 20px 0;
+        }
+        h1{
+            text-align: center;
+        }
+        input{
+            width: 60px;
+            margin-bottom: 20px;
+        }
+        #ticketNb, #reste{
+            color: green;
+            font-weight: bold;
+        }
+        #ticketNb{
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Payer avec des tickets restaurant</h1>
+    <div>Valeur d'un de vos tickets restaurant</div>
+    <input id="ticket" type="text">
+    <div>Montant à payer du restaurant</div>
+    <input id="resto" type="text">
+
+    <div>Nombre de ticket restaurant à donner</div>
+    <div id="ticketNb"></div>
+    <div>Restera à payer</div>
+    <div id="reste"></div>
+    <script>
+        let ticket = document.getElementById('ticket');
+        let resto = document.getElementById('resto');
+        let ticketNb = document.getElementById('ticketNb');
+        let reste = document.getElementById('reste');
+        let ticketVal = localStorage.getItem('ticketVal');
+        if (ticketVal == null || ticketVal == '') {
+            localStorage.setItem('ticketVal', '8.4');
+        }
+        ticket.value = localStorage.getItem('ticketVal');
+        ticket.addEventListener("change", () => {
+            localStorage.setItem('ticketVal', ticket.value);
+        });
+        resto.addEventListener("change", () => {
+            let tmpTrNb = Math.floor(resto.value / ticket.value);
+            ticketNb.innerHTML = tmpTrNb + ' ticket(s)';
+            reste.innerHTML = parseFloat(resto.value - (tmpTrNb * ticket.value)).toFixed(2) + ' €';
+        });
+    </script>
+</body>
+</html>
